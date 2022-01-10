@@ -1,0 +1,46 @@
+Magesh
+
+Schedule
+    Commence    : 9:30 AM
+    Tea Break   : 11:00 AM (20 mins)
+    Lunch Break : 1:00 PM (1 Hr)
+    Tea Break   : 3:30 PM (20 mins)
+    Wind up     : 5:30 PM
+
+Methodology:
+    Handson driven
+
+About You
+    Name
+    Total Experience
+    Primary Skillset
+    Experience in Golang
+    Have you attended my basic go training?
+
+Basics:
+    Goroutines
+        Language Support for concurrency
+            go, select, chan, range, channel operator ( <- )
+        Builtin Scheduler
+
+    Higher Order Functions
+        Functions as data
+            Functions can be assigned to variables
+            Function can be passed as arguments to other functions
+            Functions can be returned by other functions
+            
+    Implicit Implementation of Interfaces
+    Memory Management
+
+Goroutines
+    1. 
+
+
+for {
+    select {
+        case <- ch1:
+            // do something
+        case <- ch2:
+            // do something
+    }
+}
