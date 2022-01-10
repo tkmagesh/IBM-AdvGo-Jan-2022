@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"runner-demo/runner"
 	"time"
 )
 
@@ -14,12 +16,15 @@ func main() {
 		if the tasks are not completed with the given time, report "timeout"
 		exit if the execution is interrupted by an os interrupt
 	*/
+	var input string
+	fmt.Printf("Process %d started\n", os.Getpid())
+	fmt.Scanln(&input)
 
 	timeout := 15 * time.Second
 	r := runner.New(timeout)
 	r.Add(createTask(3))
 	r.Add(createTask(5))
-	r.Add(createTask(6))
+	r.Add(createTask(9))
 
 	if err := r.Start(); err != nil {
 		switch err {

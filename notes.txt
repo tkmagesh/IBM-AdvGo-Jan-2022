@@ -62,3 +62,11 @@ Pure Function
 
         What affects the outcome?
             side effects
+
+
+Runner Pattern
+    Monitor the time taken to execute a program (logic) and terminate the program if it runs too long
+    Useful when developing a program that will be scheduled to run as a background task process
+    The program should also be able to be terminated using an OS signal
+
+https://www.cyberciti.biz/faq/unix-kill-command-examples/
