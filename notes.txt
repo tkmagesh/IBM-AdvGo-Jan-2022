@@ -28,7 +28,7 @@ Basics:
             Functions can be assigned to variables
             Function can be passed as arguments to other functions
             Functions can be returned by other functions
-            
+
     Implicit Implementation of Interfaces
     Memory Management
 
@@ -44,3 +44,11 @@ for {
             // do something
     }
 }
+
+Closures
+    1. Outer Function
+    2. Variable in the outer function
+    3. Inner Function
+    4. Variable in the outer function is referred (used) in the inner function
+    5. Extend the lifetime of the inner function beyond the lifetime of the outer function
+        (and thereby extending the lifetime of the variable)
