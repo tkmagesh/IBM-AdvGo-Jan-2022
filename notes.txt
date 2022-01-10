@@ -52,3 +52,13 @@ Closures
     4. Variable in the outer function is referred (used) in the inner function
     5. Extend the lifetime of the inner function beyond the lifetime of the outer function
         (and thereby extending the lifetime of the variable)
+
+Memoization
+    Technique by which the application remembers the result of a function
+
+Pure Function
+    Referential Transparency
+        The invocation of the function can be replaced by the result of the function without affecting the outcome
+
+        What affects the outcome?
+            side effects
