@@ -12,6 +12,7 @@ var ErrTimeout = errors.New("timeout occured")
 var ErrInterrupt = errors.New("interrupt received")
 
 type Runner struct {
+	t         time.Duration
 	timeout   <-chan time.Time
 	tasks     []func(int)
 	complete  chan error
@@ -20,8 +21,8 @@ type Runner struct {
 
 func New(t time.Duration) *Runner {
 	return &Runner{
+		t:         t,
 		tasks:     []func(int){},
-		timeout:   time.After(t),
 		complete:  make(chan error),
 		interrupt: make(chan os.Signal),
 	}
@@ -32,6 +33,7 @@ func (r *Runner) Add(task func(int)) {
 }
 
 func (r *Runner) Start() error {
+	r.timeout = time.After(r.t)
 	signal.Notify(r.interrupt, os.Interrupt)
 	go func() {
 		r.complete <- r.run()

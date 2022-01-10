@@ -18,6 +18,7 @@ func main() {
 	*/
 	var input string
 	fmt.Printf("Process %d started\n", os.Getpid())
+	fmt.Println("Hit ENTER to continue...")
 	fmt.Scanln(&input)
 
 	timeout := 15 * time.Second
