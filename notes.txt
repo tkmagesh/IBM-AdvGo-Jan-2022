@@ -70,3 +70,38 @@ Runner Pattern
     The program should also be able to be terminated using an OS signal
 
 https://www.cyberciti.biz/faq/unix-kill-command-examples/
+
+
+gRPC
+    RPC - Remote Procedure Call
+    Uses HTTP2
+
+    Communication Patterns
+        Request & Response
+        Client Streaming (multiple requests & one response)
+        Server Streaming (one request & multiple responses)
+        Bidirectional Streaming (multiple requests & multiple responses)
+
+Challenges
+
+
+P101,Pen,10,100,Stationary
+P102,Pencil,5,200,Stationary
+
+raw => 55
+XML => 245 (5 times)
+JSON => 162 (3 times)
+
+Tools
+    Installation
+        go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+        go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+
+    OR
+
+        brew install protoc-gen-go
+        brew install protoc-gen-go-grpc
+
+    OR
+        Install the binaries from https://github.com/protocolbuffers/protobuf/releases/download/v3.19.2
+        
