@@ -25,19 +25,21 @@ type NamePrinter struct {
 }
 
 func (np *NamePrinter) Task() {
-	fmt.Println("Name Printer - Name : ", np.name)
 	time.Sleep(np.delay)
+	fmt.Println("Name Printer - Name : ", np.name)
 }
 
 func main() {
 	/* 5 = no of concurrent work jobs to be executed */
+	timerCounter := 1
 	p := worker.New(5)
 	for idx := 0; idx < 2; idx++ {
 		for _, name := range names {
 			np := NamePrinter{
 				name:  name,
-				delay: time.Duration(idx) * time.Second,
+				delay: time.Duration(timerCounter) * time.Second,
 			}
+			timerCounter++
 			p.Run(&np)
 		}
 	}
