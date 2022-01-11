@@ -46,35 +46,27 @@ func New(factory func() (io.Closer, error), size int) (*Pool, error) {
 }
 
 func (pool *Pool) Acquire() (io.Closer, error) {
-	pool.mutex.Lock()
-	defer pool.mutex.Unlock()
 
-	if pool.resourcesCreated < pool.size {
-		r, err := pool.factory()
-		if err != nil {
-			return nil, err
+	pool.mutex.Lock()
+	{
+		if pool.resourcesCreated < pool.size {
+			fmt.Println("Acquire : From Factory")
+			r, err := pool.factory()
+			if err != nil {
+				pool.mutex.Unlock()
+				return nil, err
+			}
+			pool.resourcesCreated++
+			pool.resources <- r
 		}
-		pool.resourcesCreated++
-		return r, nil
 	}
+	pool.mutex.Unlock()
 
 	r, ok := <-pool.resources
 	if !ok {
 		return nil, ErrPoolClosed
 	}
-	fmt.Println("Acquire : From Pool")
 	return r, nil
-	/* select {
-	case r, ok := <-pool.resources:
-		if !ok {
-			return nil, ErrPoolClosed
-		}
-		fmt.Println("Acquire : From Pool")
-		return r, nil
-	default:
-		fmt.Println("Acquire : From Factory")
-		return pool.factory()
-	} */
 }
 
 func (pool *Pool) Release(r io.Closer) error {
