@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"grpc-app/proto"
+	"io"
 	"log"
 	"net"
 	"time"
@@ -45,6 +46,29 @@ func (s *server) GeneratePrimes(req *proto.PrimeRequest, stream proto.AppService
 		}
 	}
 	return nil
+}
+
+func (s *server) ComputeAverage(serverStream proto.AppService_ComputeAverageServer) error {
+	var sum int32
+	var count int32
+	for {
+		req, err := serverStream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		sum += req.GetNo()
+		fmt.Println("Received No : ", req.GetNo())
+		count++
+	}
+	avg := sum / count
+	res := &proto.AverageResponse{
+		Average: avg,
+	}
+	fmt.Println("Sending Average : ", avg)
+	return serverStream.SendAndClose(res)
 }
 
 func isPrime(no int32) bool {
