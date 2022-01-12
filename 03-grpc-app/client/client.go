@@ -23,11 +23,13 @@ func main() {
 	client := proto.NewAppServiceClient(clientConn)
 	ctx := context.Background()
 
-	//doRequestResponse(client, ctx)
+	for i := 0; i < 5; i++ {
+		doRequestResponse(client, ctx)
+	}
 	//doServerStreaming(client, ctx)
 	//doClientStreaming(client, ctx)
 	//doBiDirectionalStreaming(client, ctx)
-	doRequestResponseWithTimeout(client, ctx)
+	//doRequestResponseWithTimeout(client, ctx)
 }
 
 func doRequestResponse(client proto.AppServiceClient, ctx context.Context) {

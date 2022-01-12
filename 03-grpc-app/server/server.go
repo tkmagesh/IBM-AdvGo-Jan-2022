@@ -14,9 +14,11 @@ import (
 
 type server struct {
 	proto.UnimplementedAppServiceServer
+	opCount int
 }
 
 func (s *server) Add(ctx context.Context, req *proto.AddRequest) (*proto.AddResponse, error) {
+	s.opCount++
 	x := req.GetX()
 	y := req.GetY()
 	fmt.Printf("Processing %d and %d\n", x, y)
@@ -26,6 +28,7 @@ func (s *server) Add(ctx context.Context, req *proto.AddRequest) (*proto.AddResp
 	res := &proto.AddResponse{
 		Result: result,
 	}
+	fmt.Println("Processed operation # : ", s.opCount)
 	return res, nil
 }
 
