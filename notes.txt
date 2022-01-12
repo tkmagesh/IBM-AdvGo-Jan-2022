@@ -109,3 +109,8 @@ Make sure the GO_PATH/bin is in the "Path" variable
 
 to generate proxy & stub
     protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative proto/service.proto
+
+
+Web Sockets
+    HTML5 API
+    Protocol built on HTTP
