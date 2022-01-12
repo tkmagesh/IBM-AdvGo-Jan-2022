@@ -1,3 +1,4 @@
+
 Magesh
 
 Schedule
@@ -17,6 +18,9 @@ About You
     Experience in Golang
     Have you attended my basic go training?
 
+Frameworks & Libraries
+    https://github.com/avelino/awesome-go
+    
 Basics:
     Goroutines
         Language Support for concurrency
