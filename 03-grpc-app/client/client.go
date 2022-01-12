@@ -23,7 +23,8 @@ func main() {
 
 	//doRequestResponse(client, ctx)
 	//doServerStreaming(client, ctx)
-	doClientStreaming(client, ctx)
+	//doClientStreaming(client, ctx)
+	doBiDirectionalStreaming(client, ctx)
 }
 
 func doRequestResponse(client proto.AppServiceClient, ctx context.Context) {
@@ -84,4 +85,55 @@ func doClientStreaming(client proto.AppServiceClient, ctx context.Context) {
 		log.Fatalln(err)
 	}
 	fmt.Println("Average = ", res.GetAverage())
+}
+
+func doBiDirectionalStreaming(client proto.AppServiceClient, ctx context.Context) {
+	users := []proto.UserName{
+		proto.UserName{
+			FirstName: "Magesh",
+			LastName:  "Kuppan",
+		},
+		proto.UserName{
+			FirstName: "Suresh",
+			LastName:  "Kannan",
+		},
+		proto.UserName{
+			FirstName: "Ramesh",
+			LastName:  "Jayaraman",
+		},
+		proto.UserName{
+			FirstName: "Rajesh",
+			LastName:  "Pandit",
+		},
+		proto.UserName{
+			FirstName: "Ganesh",
+			LastName:  "Kumar",
+		},
+	}
+	stream, err := client.GreetEveryone(ctx)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	for _, user := range users {
+		time.Sleep(time.Second * 2)
+		fmt.Println("Sending User : ", user)
+		req := &proto.GreetEveryoneRequest{
+			User: &user,
+		}
+		err := stream.Send(req)
+		if err != nil {
+			log.Fatalln(err)
+		}
+	}
+
+	for {
+		res, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatalln(err)
+		}
+		log.Println(res.GetGreeting())
+	}
 }
