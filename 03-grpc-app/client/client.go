@@ -153,9 +153,20 @@ func doRequestResponseWithTimeout(client proto.AppServiceClient, ctx context.Con
 		X: 100,
 		Y: 200,
 	}
-	timeoutCtx, cancel := context.WithTimeout(ctx, time.Millisecond*500)
-	defer cancel()
-	res, err := client.Add(timeoutCtx, req)
+	/*
+			timeoutCtx, cancel := context.WithTimeout(ctx, time.Millisecond*500)
+			defer cancel()
+
+		res, err := client.Add(timeoutCtx, req)
+	*/
+
+	//simulating context.WithTimeout
+	cancelCtx, cancel := context.WithCancel(ctx)
+	go func() {
+		time.Sleep(500 * time.Millisecond)
+		cancel()
+	}()
+	res, err := client.Add(cancelCtx, req)
 	if err != nil {
 		statusErr, ok := status.FromError(err)
 		if ok {
