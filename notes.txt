@@ -121,3 +121,6 @@ Web Sockets
 
 Code Generation
     go generate ./...
+
+To benchmark
+    go test ./... -bench=. 
