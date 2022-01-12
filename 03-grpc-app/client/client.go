@@ -88,6 +88,22 @@ func doClientStreaming(client proto.AppServiceClient, ctx context.Context) {
 }
 
 func doBiDirectionalStreaming(client proto.AppServiceClient, ctx context.Context) {
+	stream, err := client.GreetEveryone(ctx)
+	done := make(chan bool)
+	go func() {
+		for {
+			res, err := stream.Recv()
+			if err == io.EOF {
+				done <- true
+				break
+			}
+			if err != nil {
+				log.Fatalln(err)
+			}
+			log.Println(res.GetGreeting())
+		}
+	}()
+
 	users := []proto.UserName{
 		proto.UserName{
 			FirstName: "Magesh",
@@ -110,7 +126,7 @@ func doBiDirectionalStreaming(client proto.AppServiceClient, ctx context.Context
 			LastName:  "Kumar",
 		},
 	}
-	stream, err := client.GreetEveryone(ctx)
+
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -126,14 +142,5 @@ func doBiDirectionalStreaming(client proto.AppServiceClient, ctx context.Context
 		}
 	}
 
-	for {
-		res, err := stream.Recv()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			log.Fatalln(err)
-		}
-		log.Println(res.GetGreeting())
-	}
+	<-done
 }
