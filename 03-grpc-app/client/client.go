@@ -9,6 +9,8 @@ import (
 	"time"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 func main() {
@@ -24,7 +26,8 @@ func main() {
 	//doRequestResponse(client, ctx)
 	//doServerStreaming(client, ctx)
 	//doClientStreaming(client, ctx)
-	doBiDirectionalStreaming(client, ctx)
+	//doBiDirectionalStreaming(client, ctx)
+	doRequestResponseWithTimeout(client, ctx)
 }
 
 func doRequestResponse(client proto.AppServiceClient, ctx context.Context) {
@@ -143,4 +146,26 @@ func doBiDirectionalStreaming(client proto.AppServiceClient, ctx context.Context
 	}
 
 	<-done
+}
+
+func doRequestResponseWithTimeout(client proto.AppServiceClient, ctx context.Context) {
+	req := &proto.AddRequest{
+		X: 100,
+		Y: 200,
+	}
+	timeoutCtx, cancel := context.WithTimeout(ctx, time.Millisecond*500)
+	defer cancel()
+	res, err := client.Add(timeoutCtx, req)
+	if err != nil {
+		statusErr, ok := status.FromError(err)
+		if ok {
+			if statusErr.Code() == codes.DeadlineExceeded {
+				log.Println("Timout error")
+			} else {
+				log.Fatalln(err)
+			}
+		}
+		log.Fatalln(err)
+	}
+	log.Println(res.GetResult())
 }

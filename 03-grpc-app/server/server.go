@@ -20,6 +20,7 @@ func (s *server) Add(ctx context.Context, req *proto.AddRequest) (*proto.AddResp
 	x := req.GetX()
 	y := req.GetY()
 	fmt.Printf("Processing %d and %d\n", x, y)
+	time.Sleep(2 * time.Second)
 	result := x + y
 	fmt.Printf("Sending result %d\n", result)
 	res := &proto.AddResponse{
