@@ -20,7 +20,7 @@ About You
 
 Frameworks & Libraries
     https://github.com/avelino/awesome-go
-    
+
 Basics:
     Goroutines
         Language Support for concurrency
@@ -118,3 +118,6 @@ to generate proxy & stub
 Web Sockets
     HTML5 API
     Protocol built on HTTP
+
+Code Generation
+    go generate ./...
